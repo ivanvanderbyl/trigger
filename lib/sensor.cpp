@@ -9,7 +9,7 @@ void Sensor::PrintDeviceInfo(){
   ftStatus = FT_GetDeviceInfo(deviceHandle, &ftDevice, &deviceID, (char *)SerialNumber, (char *)Description, NULL);
   
   if (ftStatus == FT_OK) {
-    printf("==> Connected to %s\n", Description);
+    printf("==> Connected to %s\n", (char*)Description);
                 
     if (ftDevice == FT_DEVICE_232R){ // device is FT232R
     }else if (ftDevice == FT_DEVICE_2232C){ // device is FT2232C/L/D
@@ -71,7 +71,9 @@ int Sensor::run()
   while(!notStopped) {
     int range;
     range = Sensor::currentReading();
-    printf("===> %d\n", range);
+    Sensor::processRange(range);
+    
+    sleep(0.1);
   }
   
   return 0;
@@ -113,6 +115,15 @@ int Sensor::currentReading()
       
       return range;
     }
+  }
+}
+
+void Sensor::processRange(int range)
+{
+  
+  if(range < 70)
+  {
+    printf("Taking photo\n");
   }
 }
 

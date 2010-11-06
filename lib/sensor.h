@@ -16,7 +16,7 @@ public:
   int run();
   void stop();
   int currentReading();
-  
+  void processRange(int range);
 private:
   
 };
